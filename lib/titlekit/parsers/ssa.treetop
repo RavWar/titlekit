@@ -2,6 +2,7 @@ grammar SSA
   rule subtitles
     utf8_bom?
     info?
+    garbage?
     styles?
     styles4?
     fonts?
@@ -48,6 +49,10 @@ grammar SSA
 
   rule graphics
     '[Graphics]' end_of_line lines* end_of_section
+  end
+
+  rule garbage
+    '[Aegisub Project Garbage]' end_of_line lines* end_of_section
   end
 
   rule lines
