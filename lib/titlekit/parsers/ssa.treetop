@@ -4,7 +4,6 @@ grammar SSA
     info?
     garbage?
     styles?
-    styles4?
     fonts?
     graphics?
     event_section
@@ -24,11 +23,7 @@ grammar SSA
   end
 
   rule styles
-    '[V4 Styles]' end_of_line lines* end_of_section <Titlekit::SSA::V4PStyles>
-  end
-
-  rule styles4
-    '[V4+ Styles]' end_of_line lines* end_of_section <Titlekit::ASS::V4PStyles>
+    '[V4 Styles]' / '[V4+ Styles]' / '[v4+ Styles]' end_of_line lines* end_of_section <Titlekit::SSA::V4PStyles>
   end
 
   rule event_section
