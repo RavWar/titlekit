@@ -1,29 +1,11 @@
 grammar SSA
   rule subtitles
-    utf8_bom?
-    info?
-    garbage?
-    styles?
-    fonts?
-    graphics?
+    (!event_section .)+
     event_section
-    fonts?
-    graphics?
+    lines*
     end_of_data
 
     <Titlekit::SSA::Subtitles>
-  end
-
-  rule utf8_bom
-    "\xEF\xBB\xBF"
-  end
-
-  rule info
-    '[Script Info]' end_of_line lines* end_of_section <Titlekit::SSA::ScriptInfo>
-  end
-
-  rule styles
-    '[V4 Styles]' / '[V4+ Styles]' / '[v4+ Styles]' end_of_line lines* end_of_section <Titlekit::SSA::V4PStyles>
   end
 
   rule event_section
@@ -34,51 +16,31 @@ grammar SSA
     line* <Titlekit::SSA::Events>
   end
 
-  rule event
-    'Dialogue'
-  end
-
-  rule fonts
-    '[Fonts]' end_of_line lines* end_of_section
-  end
-
-  rule graphics
-    '[Graphics]' end_of_line lines* end_of_section
-  end
-
-  rule garbage
-    '[Aegisub Project Garbage]' end_of_line lines* end_of_section
-  end
-
   rule lines
     line+
   end
 
   rule line
-    string (end_of_line / end_of_file)
+    string end_of_data
   end
 
-  rule end_of_section
-    end_of_line+ / end_of_file
+  rule string
+    (!end_of_line .)+
+  end
+
+  rule end_of_data
+    end_of_line* / end_of_file
   end
 
   rule end_of_line
     "\r\n" / "\n" / "\r"
   end
 
-  rule end_of_data
-    end_of_line+ / end_of_file
-  end
-
   rule end_of_file
     !.
   end
 
-  rule number
-    [0-9]+
-  end
-
-  rule string
-    (!end_of_line .)+
+  rule end_of_section
+    end_of_line+ / end_of_file
   end
 end

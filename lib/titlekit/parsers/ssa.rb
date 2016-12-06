@@ -49,7 +49,7 @@ module Titlekit
     def self.import(string)
       Treetop.load(File.join(__dir__, 'ssa'))
       parser = SSAParser.new
-      syntax_tree = parser.parse(string)
+      syntax_tree = parser.parse(string.strip)
 
       if syntax_tree
         return syntax_tree.build
