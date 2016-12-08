@@ -35,10 +35,10 @@ module Titlekit
           subtitle[:id] = elements.index(line) + 1
           subtitle[:start] = SSA.parse_timecode(fields[1])
           subtitle[:end] = SSA.parse_timecode(fields[2])
-          subtitle[:lines] = fields[9..-1].join.gsub('\N', "\n")
+          subtitle[:lines] = fields[9..-1]&.join&.gsub('\N', "\n")
 
-          subtitle
-        end
+          subtitle if subtitle[:start] && subtitle[:end] && subtitle[:lines].present?
+        end.compact
       end
     end
 
